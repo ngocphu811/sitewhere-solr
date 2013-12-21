@@ -9,7 +9,7 @@
  */
 package com.sitewhere.solr;
 
-import java.util.List;
+import java.util.Map;
 
 import org.apache.solr.common.SolrInputDocument;
 
@@ -109,10 +109,10 @@ public class SiteWhereSolrFactory {
 	 * @param metadata
 	 * @throws SiteWhereException
 	 */
-	protected static void addMetadata(SolrInputDocument document, List<IMetadataEntry> metadata)
+	protected static void addMetadata(SolrInputDocument document, Map<String, String> metadata)
 			throws SiteWhereException {
-		for (IMetadataEntry entry : metadata) {
-			document.addField(ISolrFields.META_PREFIX + entry.getName(), entry.getValue());
+		for (String key : metadata.keySet()) {
+			document.addField(ISolrFields.META_PREFIX + key, metadata.get(key));
 		}
 	}
 }
