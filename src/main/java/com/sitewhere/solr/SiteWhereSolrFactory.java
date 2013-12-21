@@ -39,6 +39,7 @@ public class SiteWhereSolrFactory {
 	public static SolrInputDocument createDocumentFromMeasurements(IDeviceMeasurements measurements)
 			throws SiteWhereException {
 		SolrInputDocument document = new SolrInputDocument();
+		document.addField(ISolrFields.EVENT_TYPE, SolrEventType.Measurements.name());
 		addFieldsForEvent(document, measurements);
 		for (IMeasurementEntry entry : measurements.getMeasurements()) {
 			document.addField(ISolrFields.MEASUREMENT_PREFIX + entry.getName(), entry.getValue());
@@ -56,6 +57,7 @@ public class SiteWhereSolrFactory {
 	public static SolrInputDocument createDocumentFromLocation(IDeviceLocation location)
 			throws SiteWhereException {
 		SolrInputDocument document = new SolrInputDocument();
+		document.addField(ISolrFields.EVENT_TYPE, SolrEventType.Location.name());
 		addFieldsForEvent(document, location);
 		String latLong = "" + location.getLatitude() + ", " + location.getLongitude();
 		document.addField(ISolrFields.LOCATION, latLong);
@@ -72,6 +74,7 @@ public class SiteWhereSolrFactory {
 	 */
 	public static SolrInputDocument createDocumentFromAlert(IDeviceAlert alert) throws SiteWhereException {
 		SolrInputDocument document = new SolrInputDocument();
+		document.addField(ISolrFields.EVENT_TYPE, SolrEventType.Alert.name());
 		addFieldsForEvent(document, alert);
 		document.addField(ISolrFields.ALERT_TYPE, alert.getType());
 		document.addField(ISolrFields.ALERT_MESSAGE, alert.getMessage());
@@ -91,6 +94,8 @@ public class SiteWhereSolrFactory {
 			throws SiteWhereException {
 		document.addField(ISolrFields.EVENT_ID, event.getId());
 		document.addField(ISolrFields.ASSIGNMENT_TOKEN, event.getDeviceAssignmentToken());
+		document.addField(ISolrFields.ASSIGNMENT_TYPE, event.getAssignmentType().name());
+		document.addField(ISolrFields.ASSET_ID, event.getAssetId());
 		document.addField(ISolrFields.SITE_TOKEN, event.getSiteToken());
 		document.addField(ISolrFields.EVENT_DATE, event.getEventDate());
 		document.addField(ISolrFields.RECEIVED_DATE, event.getReceivedDate());
