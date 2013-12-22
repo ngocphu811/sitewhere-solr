@@ -14,8 +14,6 @@ import java.util.Map;
 import org.apache.solr.common.SolrInputDocument;
 
 import com.sitewhere.spi.SiteWhereException;
-import com.sitewhere.spi.common.IMeasurementEntry;
-import com.sitewhere.spi.common.IMetadataEntry;
 import com.sitewhere.spi.device.IDeviceAlert;
 import com.sitewhere.spi.device.IDeviceEvent;
 import com.sitewhere.spi.device.IDeviceLocation;
@@ -41,8 +39,8 @@ public class SiteWhereSolrFactory {
 		SolrInputDocument document = new SolrInputDocument();
 		document.addField(ISolrFields.EVENT_TYPE, SolrEventType.Measurements.name());
 		addFieldsForEvent(document, measurements);
-		for (IMeasurementEntry entry : measurements.getMeasurements()) {
-			document.addField(ISolrFields.MEASUREMENT_PREFIX + entry.getName(), entry.getValue());
+		for (String key : measurements.getMeasurements().keySet()) {
+			document.addField(ISolrFields.MEASUREMENT_PREFIX + key, measurements.getMeasurement(key));
 		}
 		return document;
 	}
@@ -103,7 +101,7 @@ public class SiteWhereSolrFactory {
 	}
 
 	/**
-	 * Add a list of {@link IMetadataEntry} objects to a document.
+	 * Add metadata to the document.
 	 * 
 	 * @param document
 	 * @param metadata
